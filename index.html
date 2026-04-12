@@ -50,7 +50,8 @@
 
     <!-- Основной контейнер виджета -->
     <div class="w-full max-w-4xl mx-auto pb-10">
-        <h1 id="titleText" class="text-3xl font-extrabold text-center mb-12 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-violet-400 text-outline hidden">
+        <!-- Убрали hidden и заменили text-outline на drop-shadow для совместимости с OBS -->
+        <h1 id="titleText" class="text-3xl font-extrabold text-center mb-12 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-violet-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             👑 ТОП СПОНСОРОВ 👑
         </h1>
         
@@ -72,7 +73,6 @@
 
         const statusText = document.getElementById('statusText');
         const giftersContainer = document.getElementById('giftersList');
-        const titleText = document.getElementById('titleText');
 
         // Автозапуск при открытии ссылки
         window.addEventListener('DOMContentLoaded', () => {
@@ -81,7 +81,6 @@
 
             if (username) {
                 currentStreamer = username;
-                titleText.classList.remove('hidden'); // Показываем заголовок
                 statusText.innerText = `Подключение к @${username}...`;
                 listenToSupabase();
             } else {
