@@ -56,7 +56,7 @@
     <div class="w-full max-w-2xl mx-auto pb-10">
         <!-- Заголовок -->
         <h1 id="titleText" class="text-3xl font-extrabold text-center mb-10 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-violet-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-            👑 ТОП СПОНСОРОВ 👑
+            👑 ТОП 👑
         </h1>
         
         <!-- Контейнер для списка -->
@@ -175,15 +175,15 @@
                             </div>
                             
                             <!-- Данные пользователя -->
-                            <div class="flex-grow min-w-0 pr-4 text-left">
-                                <h2 class="text-3xl font-black truncate text-white drop-shadow-lg text-outline">${name}</h2>
-                                <p class="text-lg text-yellow-200/80 mt-1 truncate text-outline">@${gifter.gifter_username}</p>
+                            <div class="flex-grow min-w-0 pr-4 text-left py-1">
+                                <h2 class="text-2xl sm:text-3xl font-black text-white drop-shadow-lg text-outline break-words leading-tight">${name}</h2>
+                                <p class="text-base sm:text-lg text-yellow-200/80 mt-1 text-outline break-words">@${gifter.gifter_username}</p>
                             </div>
                             
                             <!-- Блок с монетами ОГРОМНЫЙ -->
                             <div class="flex-shrink-0 inline-flex items-center gap-3 bg-black/80 px-6 py-3 rounded-2xl border border-yellow-500/50 shadow-[inset_0_0_20px_rgba(250,204,21,0.3)] ml-auto">
-                                <span class="text-yellow-400 font-black text-6xl drop-shadow-[0_0_15px_rgba(250,204,21,1)] leading-none">${coinsStr}</span>
-                                <img src="${COIN_ICON_URL}" class="w-14 h-14 drop-shadow-[0_0_10px_rgba(250,204,21,1)]" alt="coin">
+                                <span class="text-yellow-400 font-black text-5xl sm:text-6xl drop-shadow-[0_0_15px_rgba(250,204,21,1)] leading-none">${coinsStr}</span>
+                                <img src="${COIN_ICON_URL}" class="w-12 h-12 sm:w-14 sm:h-14 drop-shadow-[0_0_10px_rgba(250,204,21,1)]" alt="coin">
                             </div>
                         </div>
                     `;
@@ -204,15 +204,15 @@
                             </div>
                             
                             <!-- Данные пользователя -->
-                            <div class="flex-grow min-w-0 pr-4 text-left">
-                                <h2 class="text-2xl font-bold truncate text-gray-100 text-outline">${name}</h2>
-                                <p class="text-base text-gray-400 mt-1 truncate text-outline">@${gifter.gifter_username}</p>
+                            <div class="flex-grow min-w-0 pr-4 text-left py-1">
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-100 text-outline break-words leading-tight">${name}</h2>
+                                <p class="text-sm sm:text-base text-gray-400 mt-1 text-outline break-words">@${gifter.gifter_username}</p>
                             </div>
                             
                             <!-- Блок с монетами СРЕДНИЙ -->
                             <div class="flex-shrink-0 inline-flex items-center gap-2 bg-black/70 px-5 py-2.5 rounded-xl border border-gray-400/40 shadow-[inset_0_0_10px_rgba(209,213,219,0.1)] ml-auto">
-                                <span class="text-gray-200 font-black text-4xl drop-shadow-[0_0_10px_rgba(209,213,219,0.8)] leading-none">${coinsStr}</span>
-                                <img src="${COIN_ICON_URL}" class="w-10 h-10 drop-shadow-[0_0_8px_rgba(209,213,219,1)]" alt="coin">
+                                <span class="text-gray-200 font-black text-3xl sm:text-4xl drop-shadow-[0_0_10px_rgba(209,213,219,0.8)] leading-none">${coinsStr}</span>
+                                <img src="${COIN_ICON_URL}" class="w-8 h-8 sm:w-10 sm:h-10 drop-shadow-[0_0_8px_rgba(209,213,219,1)]" alt="coin">
                             </div>
                         </div>
                     `;
@@ -234,14 +234,14 @@
                             
                             <!-- Данные пользователя -->
                             <div class="flex-grow min-w-0 pr-4 text-left">
-                                <h2 class="text-xl font-bold truncate text-white text-outline">${name}</h2>
-                                <p class="text-sm text-gray-300 mt-1 truncate text-outline">@${gifter.gifter_username}</p>
+                                <h2 class="text-lg sm:text-xl font-bold text-white text-outline break-words leading-tight">${name}</h2>
+                                <p class="text-xs sm:text-sm text-gray-300 mt-1 text-outline break-words">@${gifter.gifter_username}</p>
                             </div>
                             
                             <!-- Блок с монетами -->
                             <div class="flex-shrink-0 inline-flex items-center gap-2 bg-black/60 px-4 py-2 rounded-xl border border-white/10 shadow-inner ml-auto">
-                                <span class="text-yellow-400 font-black text-2xl drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]">${coinsStr}</span>
-                                <img src="${COIN_ICON_URL}" class="w-8 h-8 drop-shadow-[0_0_5px_rgba(250,204,21,1)]" alt="coin">
+                                <span class="text-yellow-400 font-black text-xl sm:text-2xl drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]">${coinsStr}</span>
+                                <img src="${COIN_ICON_URL}" class="w-6 h-6 sm:w-8 sm:h-8 drop-shadow-[0_0_5px_rgba(250,204,21,1)]" alt="coin">
                             </div>
                         </div>
                     `;
