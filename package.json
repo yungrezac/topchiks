@@ -1,0 +1,13 @@
+{
+  "name": "tiktok-live-top-widget",
+  "version": "1.0.0",
+  "description": "Сервер мониторинга подарков TikTok и OBS виджет",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.3",
+    "tiktok-live-connector": "^1.1.4"
+  }
+}
