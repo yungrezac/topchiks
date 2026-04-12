@@ -66,7 +66,8 @@
         // Инициализация Supabase
         const SUPABASE_URL = 'https://zagvyrqnayxdbqkcjqud.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_glnqsWdFcmaHOzUrfD5fGA_dt6xiB1f';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Переименовали переменную, чтобы избежать конфликта с глобальным объектом window.supabase
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let currentStreamer = '';
         let realtimeSubscription = null;
@@ -89,7 +90,7 @@
         });
 
         async function fetchAndRenderTop() {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('top_gifters')
                 .select('*')
                 .eq('streamer_username', currentStreamer)
@@ -111,7 +112,7 @@
             fetchAndRenderTop();
 
             // Подписка на обновления таблицы в реальном времени
-            realtimeSubscription = supabase.channel('public:top_gifters')
+            realtimeSubscription = supabaseClient.channel('public:top_gifters')
                 .on('postgres_changes', { 
                     event: '*', 
                     schema: 'public', 
