@@ -30,8 +30,8 @@
         }
         /* Анимация появления */
         @keyframes popIn {
-            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+            0% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
         }
         .animate-pop { animation: popIn 0.5s ease-out forwards; }
         
@@ -49,24 +49,24 @@
 <body class="text-white h-screen flex flex-col justify-end">
 
     <!-- Основной контейнер виджета -->
-    <div class="w-full max-w-4xl mx-auto pb-10">
-        <!-- Убрали hidden и заменили text-outline на drop-shadow для совместимости с OBS -->
-        <h1 id="titleText" class="text-3xl font-extrabold text-center mb-12 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-violet-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-            👑 ТОП 👑
+    <div class="w-full max-w-2xl mx-auto pb-10">
+        <!-- Заголовок -->
+        <h1 id="titleText" class="text-3xl font-extrabold text-center mb-8 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-violet-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+            👑 ТОП СПОНСОРОВ 👑
         </h1>
         
-        <div id="giftersList" class="grid grid-cols-3 gap-6 items-end h-[350px]">
-            <!-- Карточки рендерятся тут -->
+        <!-- Контейнер для списка -->
+        <div id="giftersList" class="flex flex-col gap-4">
+            <!-- Элементы списка рендерятся тут -->
         </div>
         
-        <div id="statusText" class="text-center text-sm font-bold tracking-widest mt-4 text-gray-400 text-outline"></div>
+        <div id="statusText" class="text-center text-sm font-bold tracking-widest mt-6 text-gray-400 text-outline"></div>
     </div>
 
     <script>
         // Инициализация Supabase
         const SUPABASE_URL = 'https://zagvyrqnayxdbqkcjqud.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_glnqsWdFcmaHOzUrfD5fGA_dt6xiB1f';
-        // Переименовали переменную, чтобы избежать конфликта с глобальным объектом window.supabase
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let currentStreamer = '';
@@ -131,39 +131,44 @@
             const displayGifters = [...gifters];
             while (displayGifters.length < 3) { displayGifters.push(null); }
 
-            // Порядок для пьедестала: Слева(2), Центр(1), Справа(3)
-            const podiumOrder = [displayGifters[1], displayGifters[0], displayGifters[2]];
-            const ranks = [2, 1, 3];
-            const heights = ['h-[240px]', 'h-[300px]', 'h-[210px]']; 
+            // Порядок для списка: 1, 2, 3
+            const ranks = [1, 2, 3];
             
-            podiumOrder.forEach((gifter, index) => {
+            displayGifters.forEach((gifter, index) => {
                 const rank = ranks[index];
                 
                 if (!gifter) {
-                    giftersContainer.innerHTML += `<div class="glass-panel ${heights[index]} opacity-30 flex items-center justify-center text-gray-400 font-bold text-center">Ожидание...</div>`;
+                    giftersContainer.innerHTML += `
+                        <div class="glass-panel p-4 h-[88px] opacity-30 flex items-center justify-center text-gray-400 font-bold">
+                            Ожидание...
+                        </div>`;
                     return;
                 }
 
+                // Горизонтальная карточка для списка
                 const cardHTML = `
-                    <div class="glass-panel gifter-card relative flex flex-col justify-end pb-6 ${heights[index]} rank-${rank} animate-pop">
-                        <!-- Аватарка выходит за пределы карточки вверх -->
-                        <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
-                            <img src="${gifter.avatar_url}" class="w-24 h-24 rounded-full border-4 border-gray-900 object-cover shadow-[0_0_15px_rgba(0,0,0,0.8)]">
-                            <div class="absolute -bottom-2 right-0 bg-gray-900 text-white text-sm font-black px-3 py-1 rounded-full border-2 border-gray-600 shadow-lg">
-                                #${rank}
-                            </div>
+                    <div class="glass-panel gifter-card relative flex items-center p-4 w-full rank-${rank} animate-pop">
+                        
+                        <!-- Место в топе -->
+                        <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-gray-900 text-white font-black rounded-full border-2 border-gray-600 shadow-lg mr-4 text-outline z-10">
+                            #${rank}
+                        </div>
+
+                        <!-- Аватарка -->
+                        <div class="relative flex-shrink-0 mr-4">
+                            <img src="${gifter.avatar_url}" class="w-16 h-16 rounded-full border-2 border-gray-900 object-cover shadow-[0_0_10px_rgba(0,0,0,0.8)]">
                         </div>
                         
                         <!-- Данные пользователя -->
-                        <div class="text-center px-4 mt-8">
+                        <div class="flex-grow min-w-0 pr-4 text-left">
                             <h2 class="text-xl font-bold truncate text-white text-outline">${gifter.gifter_nickname || gifter.gifter_username}</h2>
-                            <p class="text-xs text-gray-300 mt-1 truncate text-outline">@${gifter.gifter_username}</p>
-                            
-                            <!-- Блок с монетами -->
-                            <div class="mt-4 inline-flex items-center gap-2 bg-black/60 px-4 py-2 rounded-xl border border-white/10 shadow-inner">
-                                <span class="text-yellow-400 font-black text-2xl drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]">${gifter.coins.toLocaleString()}</span>
-                                <svg class="w-6 h-6 text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,1)]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
-                            </div>
+                            <p class="text-sm text-gray-300 mt-1 truncate text-outline">@${gifter.gifter_username}</p>
+                        </div>
+                        
+                        <!-- Блок с монетами -->
+                        <div class="flex-shrink-0 inline-flex items-center gap-2 bg-black/60 px-4 py-2 rounded-xl border border-white/10 shadow-inner ml-auto">
+                            <span class="text-yellow-400 font-black text-2xl drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]">${gifter.coins.toLocaleString()}</span>
+                            <svg class="w-6 h-6 text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,1)]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
                         </div>
                     </div>
                 `;
