@@ -18,10 +18,11 @@
             padding: 20px;
         }
         .glass-panel {
-            background: rgba(15, 23, 42, 0.6); /* Полупрозрачная темная подложка для читаемости на любом фоне */
+            /* Темная полупрозрачная подложка, чтобы текст не сливался с игрой/видео */
+            background: rgba(15, 23, 42, 0.7); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 24px;
         }
         .gifter-card {
@@ -35,17 +36,17 @@
         .animate-pop { animation: popIn 0.5s ease-out forwards; }
         
         /* Стилизация медалей */
-        .rank-1 { box-shadow: 0 0 25px rgba(250, 204, 21, 0.5); border: 2px solid rgba(250, 204, 21, 0.8); }
-        .rank-2 { box-shadow: 0 0 20px rgba(156, 163, 175, 0.4); border: 2px solid rgba(156, 163, 175, 0.7); }
-        .rank-3 { box-shadow: 0 0 20px rgba(180, 83, 9, 0.4); border: 2px solid rgba(180, 83, 9, 0.7); }
+        .rank-1 { box-shadow: 0 0 25px rgba(250, 204, 21, 0.4); border: 2px solid rgba(250, 204, 21, 0.6); }
+        .rank-2 { box-shadow: 0 0 20px rgba(156, 163, 175, 0.3); border: 2px solid rgba(156, 163, 175, 0.5); }
+        .rank-3 { box-shadow: 0 0 20px rgba(180, 83, 9, 0.3); border: 2px solid rgba(180, 83, 9, 0.5); }
         
-        /* Текстовые тени для читаемости поверх видео */
+        /* Текстовые тени для читаемости поверх любого видео */
         .text-outline {
             text-shadow: 0px 2px 8px rgba(0,0,0,0.9), 0px 1px 3px rgba(0,0,0,0.8);
         }
     </style>
 </head>
-<body class="text-white h-screen flex flex-col justify-end"> <!-- justify-end прижимает виджет к низу экрана OBS -->
+<body class="text-white h-screen flex flex-col justify-end">
 
     <!-- Основной контейнер виджета -->
     <div class="w-full max-w-4xl mx-auto pb-10">
@@ -57,7 +58,7 @@
             <!-- Карточки рендерятся тут -->
         </div>
         
-        <div id="statusText" class="text-center text-sm font-bold tracking-widest mt-4 text-red-400 text-outline"></div>
+        <div id="statusText" class="text-center text-sm font-bold tracking-widest mt-4 text-gray-400 text-outline"></div>
     </div>
 
     <script>
@@ -73,7 +74,7 @@
         const giftersContainer = document.getElementById('giftersList');
         const titleText = document.getElementById('titleText');
 
-        // Автозапуск при открытии в OBS
+        // Автозапуск при открытии ссылки
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const username = urlParams.get('user') || urlParams.get('username');
@@ -81,9 +82,10 @@
             if (username) {
                 currentStreamer = username;
                 titleText.classList.remove('hidden'); // Показываем заголовок
+                statusText.innerText = `Подключение к @${username}...`;
                 listenToSupabase();
             } else {
-                statusText.innerText = '⚠️ ДОБАВЬТЕ ?user=имя_стримера В ССЫЛКУ OBS';
+                statusText.innerText = '⚠️ ДОБАВЬТЕ ?user=имя_стримера В ССЫЛКУ';
             }
         });
 
@@ -97,6 +99,11 @@
             
             if (!error && data) {
                 renderCards(data);
+                if (data.length > 0) {
+                    statusText.innerText = ''; // Очищаем статус, если загрузили данные
+                }
+            } else if (error) {
+                statusText.innerText = `Ошибка БД: ${error.message}`;
             }
         }
 
