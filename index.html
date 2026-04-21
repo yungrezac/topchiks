@@ -91,6 +91,13 @@
                 currentStreamer = username;
                 statusText.innerText = `Подключение к @${username}...`;
                 listenToSupabase();
+
+                // НОВОЕ: Отправляем "сигнал жизни" серверу каждую 1 минуту
+                // Это скажет серверу, что виджет открыт в OBS и переподключения нужно продолжать
+                setInterval(() => {
+                    fetch(`/ping?user=${username}`).catch(() => {});
+                }, 60000);
+
             } else {
                 statusText.innerText = '⚠️ ДОБАВЬТЕ ?user=имя_стримера В ССЫЛКУ';
             }
